@@ -1,0 +1,11 @@
+models/
+  staging/
+    stg_customer.sql
+    stg_orders.sql
+    stg_lineitem.sql
+  transformations/
+    (optional models, e.g., combined tables or derived fields)
+  business/
+    dim_customer.sql
+    dim_product.sql
+    fct_sales.sql

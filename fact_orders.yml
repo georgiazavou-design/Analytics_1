@@ -1,0 +1,38 @@
+
+models:
+  - name: dim_customer
+    description: "Customer dimension"
+    columns:
+      - name: customer_id
+        tests:
+          - not_null
+          - unique
+      - name: customer_name
+        tests:
+          - not_null
+
+  - name: fact_orders
+    description: "Fact table containing order details"
+    columns:
+      - name: order_id
+        tests:
+          - not_null
+      - name: customer_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_customer')
+              field: customer_id
+      - name: part_id
+        tests:
+          - relationships:
+              to: ref('dim_part')
+              field: part_id
+      - name: supplier_id
+        tests:
+          - relationships:
+              to: ref('dim_supplier')
+              field: supplier_id
+      - name: total_gross_sales
+        tests:
+          - not_null

@@ -1,0 +1,16 @@
+version: 2
+
+sources:
+  - name: tpch_sf1
+    database: SNOWFLAKE_SAMPLE_DATA     
+    schema: TPCH_SF1                    
+
+    tables:
+      - name: orders
+        description: "Orders data from TPCH dataset"
+      - name: customer
+      - name: lineitem
+      - name: supplier
+      - name: part
+      - name: nation
+      - name: region
