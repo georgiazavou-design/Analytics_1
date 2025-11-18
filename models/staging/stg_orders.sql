@@ -1,11 +1,14 @@
 {{ config(
-    materialized='incremental',
-    unique_key='order_id'
+    materialized='incremental'
 ) }}
 
 with existing as (
+    {% if is_incremental() %}
     select coalesce(max(order_date), '1900-01-01') as max_order_date
     from {{ this }}
+    {% else %}
+    select '1900-01-01'::date as max_order_date
+    {% endif %}
 )
 
 select
@@ -16,7 +19,7 @@ select
     o_orderdate      as order_date,
     o_orderpriority  as order_priority,
     o_clerk          as clerk_name
-from {{ source('tpch_sf1', 'orders') }}
+from SNOWFLAKE_SAMPLE_DATA.TPCH_SF1.orders
 {% if is_incremental() %}
-where o_orderdate > (select max_order_date from existing)
+where order_date > (select max_order_date from existing)
 {% endif %}
