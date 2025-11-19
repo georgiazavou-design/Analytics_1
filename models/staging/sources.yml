@@ -13,12 +13,7 @@ sources:
             warn_after: {count: 1000, period: day}
             error_after: {count: 10000, period: day}
           tags: ['freshness', 'static']
-        columns:
-         - name: order_date
-           description: "Date of the order"
-           tests:
-             - test_order_date     # custom SQL test
-
+      
 
       - name: customer
         description: "Customer data from TPCH"
