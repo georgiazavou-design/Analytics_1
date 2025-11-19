@@ -1,0 +1,7 @@
+models:
+  - name: orders
+    columns:
+      - name: order_date
+        tests:
+          - not_null
+          - test_order_date

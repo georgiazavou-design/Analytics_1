@@ -1,58 +1,110 @@
+version: 2
 
+
+
+# ============================================
+# DIMENSION MODELS  (Business Layer)
+# ============================================
 models:
   - name: dim_customer
     description: "Customer dimension"
+    config:
+      tags: ['dimension', 'dim_load', 'business']
     columns:
       - name: customer_id
+        description: "Primary key for the customer dimension"
         tests:
-          - not_null
-          - unique
+          - not_null:
+              config:
+                tags: ['critical_id']
+          - unique:
+              config:
+                tags: ['critical_id']
+
       - name: customer_name_upper
+        description: "Uppercase customer name"
         tests:
           - not_null
 
   - name: dim_part
     description: "Part dimension"
+    config:
+      tags: ['dimension', 'dim_load', 'business']
     columns:
       - name: part_id
         tests:
-          - not_null
-          - unique
+          - not_null:
+              config:
+                tags: ['critical_id']
+          - unique:
+              config:
+                tags: ['critical_id']
       - name: part_name
         tests:
           - not_null
 
   - name: dim_supplier
     description: "Supplier dimension"
+    config:
+      tags: ['dimension', 'dim_load', 'business']
     columns:
       - name: supplier_id
         tests:
-          - not_null
-          - unique
+          - not_null:
+              config:
+                tags: ['critical_id']
+          - unique:
+              config:
+                tags: ['critical_id']
       - name: supplier_name_upper
         tests:
           - not_null
 
 
+# ============================================
+# FACT MODELS  (Business Layer)
+# ============================================
+
+
+
   - name: fact_orders
     description: "Fact table containing order details"
+    config:
+      tags: ['business']
     columns:
       - name: order_id
+        description: "Order identifier"
         tests:
           - not_null
+
       - name: customer_id
         tests:
           - not_null
           - relationships:
-              to: ref('dim_customer')
-              field: customer_id
+              arguments:
+                to: ref('dim_customer')
+                field: customer_id
+              config:
+                tags: ['critical_fk']
+
+
       - name: part_id
         tests:
           - relationships:
-              to: ref('dim_part')
-              field: part_id
+             arguments:
+               to: ref('dim_part')
+               field: part_id
+             config:
+                tags: ['critical_fk']
+
       - name: supplier_id
         tests:
           - relationships:
-              to: ref('dim_supplier')
-              field: supplier_id
+             arguments:
+               to: ref('dim_supplier')
+               field: supplier_id
+             config:
+                tags: ['critical_fk']
+
+      
+

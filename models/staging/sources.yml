@@ -2,15 +2,63 @@ version: 2
 
 sources:
   - name: tpch_sf1
-    database: SNOWFLAKE_SAMPLE_DATA     
-    schema: TPCH_SF1                    
+    database: SNOWFLAKE_SAMPLE_DATA
+    schema: TPCH_SF1
 
     tables:
       - name: orders
         description: "Orders data from TPCH dataset"
+        config:
+          freshness:
+            warn_after: {count: 1000, period: day}
+            error_after: {count: 10000, period: day}
+          tags: ['freshness', 'static']
+      
+
       - name: customer
+        description: "Customer data from TPCH"
+        config:
+          freshness:
+            warn_after: {count: 1000, period: day}
+            error_after: {count: 10000, period: day}
+          tags: ['freshness', 'static']
+
       - name: lineitem
+        description: "Line items from TPCH"
+        config:
+          freshness:
+            warn_after: {count: 1000, period: day}
+            error_after: {count: 10000, period: day}
+          tags: ['freshness', 'static']
+
       - name: supplier
+        description: "Supplier data from TPCH"
+        config:
+          freshness:
+            warn_after: {count: 1000, period: day}
+            error_after: {count: 10000, period: day}
+          tags: ['freshness', 'static']
+
       - name: part
+        description: "Parts data from TPCH"
+        config:
+          freshness:
+            warn_after: {count: 1000, period: day}
+            error_after: {count: 10000, period: day}
+          tags: ['freshness', 'static']
+
       - name: nation
+        description: "Nation data from TPCH"
+        config:
+          freshness:
+            warn_after: {count: 1000, period: day}
+            error_after: {count: 10000, period: day}
+          tags: ['freshness', 'static']
+
       - name: region
+        description: "Region data from TPCH"
+        config:
+          freshness:
+            warn_after: {count: 1000, period: day}
+            error_after: {count: 10000, period: day}
+          tags: ['freshness', 'static']
