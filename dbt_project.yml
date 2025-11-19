@@ -18,9 +18,36 @@ clean-targets:
 
 models:
   Analytics:
+
+    # -----------------------
+    # Staging layer
+    # -----------------------
     staging:
       +materialized: table
+      +post-hook:
+        - "GRANT SELECT ON {{ this }} TO PUBLIC"
+        - >
+          INSERT INTO audit_log(model_name, row_count, run_time)
+          SELECT '{{ this.name }}', COUNT(*), CURRENT_TIMESTAMP FROM {{ this }}
+
+    # -----------------------
+    # Transformation layer
+    # -----------------------
     transformation:
-      +materialized: view          
+      +materialized: view
+      +post-hook:
+        - "GRANT SELECT ON {{ this }} TO PUBLIC"
+        - >
+          INSERT INTO audit_log(model_name, row_count, run_time)
+          SELECT '{{ this.name }}', COUNT(*), CURRENT_TIMESTAMP FROM {{ this }}
+
+    # -----------------------
+    # Business layer
+    # -----------------------
     business:
-      +materialized: table         
+      +materialized: table
+      +post-hook:
+        - "GRANT SELECT ON {{ this }} TO PUBLIC"
+        - >
+          INSERT INTO audit_log(model_name, row_count, run_time)
+          SELECT '{{ this.name }}', COUNT(*), CURRENT_TIMESTAMP FROM {{ this }}
