@@ -1,0 +1,11 @@
+version: 2
+
+models:
+  - name: dim_time
+    description: "Time dimension with full date attributes for analytics"
+    columns:
+      - name: date_id
+        description: "Primary key of the date dimension"
+        tests:
+          - unique
+          - not_null
